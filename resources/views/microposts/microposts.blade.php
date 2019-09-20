@@ -1,4 +1,4 @@
-<ul class="media-listw">
+<ul class="media-list">
     @foreach($microposts as $micropost)
         <li class="media mb-3">
             <img class="mr-2 rouded" src="{{ Gravatar::src($micropost->user->email, 50) }}" alt="">
@@ -9,12 +9,15 @@
                 <div>
                     <p class="mb-0">{!! nl2br(e($micropost->content)) !!}</p>
                 </div>
-                <div>
-                    @if (Auth::id() == $micropost->user_id)
-                         {!! Form::open(['route' => ['microposts.destroy', $micropost->id], 'method' => 'delete']) !!}
-                                  {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-                         {!! Form::close() !!}   
-                    @endif     
+                <div class="form-inline">
+                    <div class="col-sm-4 mr-0  form-group">
+                        @if (Auth::id() == $micropost->user_id)
+                             {!! Form::open(['route' => ['microposts.destroy', $micropost->id], 'method' => 'delete']) !!}
+                                      {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm form-control']) !!}
+                             {!! Form::close() !!}   
+                        @endif 
+                        @include('favorite.favorite_button',['micropost' => $micropost])
+                    </div>
                 </div>
             </div>
         </li>
